@@ -30,7 +30,7 @@ def in_dictlist(key, value, my_dictlist):
 def readAndClean():
     tweets = []
     #with open(sys.argv[1], "r", encoding='UTF-8') as csvfile:
-    with open('/home/arun/jezikovne/tviti/alltweets_modified_caret_nodupl.csv', "r", encoding='UTF-8') as csvfile:
+    with open('alltweets_modified_caret.csv', "r", encoding='UTF-8') as csvfile:
         reader = csv.reader(csvfile, delimiter='^')
         next(reader)
         for row in reader:
@@ -65,14 +65,18 @@ def analyzeWithLeksicon(tweets):
     #build leksicon
     lexicon = dict()
     #with open(sys.argv[2], "r", encoding='UTF-8') as csvfile:
-    with open('/home/arun/jezikovne/korpusi/kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
+    #with open('/home/arun/jezikovne/korpusi/kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
+    with open('kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
+        #depending on lexicon
         reader = csv.reader(csvfile, delimiter=',')
+        #reader = csv.reader(csvfile, delimiter='\t')
         next(reader)
         for row in reader:
             lexicon[row[0]] = int(row[1])
 
     #score the tweets
     for tweet in tweets:
+        tweet['score'] = ''
         score = 0
         for word in tweet['cleanText'].split(" "):
             if word in lexicon:
@@ -95,22 +99,20 @@ def analyzeWithLeksicon(tweets):
                 if((in_dictlist('date', data["date"], tempCheck)) == {} and (in_dictlist('id', data["id"], tempCheck)) == {}):
                     tempCheck.append(data)
                     writer.writerow(data)
-                else:
-                    print("not writing")
+                # else:
+                #     print("not writing")
     except IOError:
         print("I/O error")
 
-        # for date,username,to,replies,retweets,favorites,text,geo,mentions,hashtags,id,permalink in tweet:
-        #     w.writerow([date,username,to,replies,retweets,favorites,text,geo,mentions,hashtags,id,permalink])
 
-    return tweets
-
-
+    return tempCheck
 
 cleanTweets = readAndClean();
 analyzeWithLeksicon(cleanTweets)
 
-#clean out duplicates
+#clean out duplicates just in case
 df = pd.read_csv('output.csv', sep='^')
 df.drop_duplicates(inplace=True)
 df.to_csv('output.csv', sep='^',index=False)
+
+
