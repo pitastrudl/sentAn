@@ -63,10 +63,6 @@ def analyse_text(classifier, vectorizer, text):
     return text, classifier.predict(vectorizer.transform([text]))
 
 
-def print_result(result):
-    text, analysis_result = result
-    print_text = "Positive" if analysis_result[0] == '1' else "Negative"
-    print(text, ":", print_text)
 
 def simple_evaluation(evaluation_data):
     evaluation_text     = [evaluation_data[0] for evaluation_data in evaluation_data]
@@ -78,7 +74,6 @@ def simple_evaluation(evaluation_data):
         analysis_result = analyse_text(classifier, vectorizer, evaluation_text[index])
         text, result = analysis_result
         corrects += 1 if result[0] == evaluation_result[index] else 0
-
     return corrects * 100 / total
 
 
@@ -86,9 +81,13 @@ training_data, evaluation_data = preprocessing_step()
 vectorizer = CountVectorizer(binary = 'true')
 classifier = training_step(training_data, vectorizer)
 
+print(simple_evaluation(evaluation_data))
 
 
-podatki = preprocessing_data(get_all_data())
-print(podatki)
-for k in podatki:
-    print(k)
+print(preprocessing_step())
+
+# podatki = preprocessing_data(get_all_data())
+# print(podatki)
+# for k in podatki:
+#     print(k)
+

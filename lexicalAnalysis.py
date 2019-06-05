@@ -29,8 +29,8 @@ def in_dictlist(key, value, my_dictlist):
 
 def readAndClean():
     tweets = []
-    #with open(sys.argv[1], "r", encoding='UTF-8') as csvfile:
-    with open('alltweets_modified_caret.csv', "r", encoding='UTF-8') as csvfile:
+    with open(sys.argv[1], "r", encoding='UTF-8') as csvfile:
+    #with open('alltweets_modified_caret.csv', "r", encoding='UTF-8') as csvfile:
         reader = csv.reader(csvfile, delimiter='^')
         next(reader)
         for row in reader:
@@ -64,9 +64,9 @@ def analyzeWithLeksicon(tweets):
 
     #build leksicon
     lexicon = dict()
-    #with open(sys.argv[2], "r", encoding='UTF-8') as csvfile:
-    #with open('/home/arun/jezikovne/korpusi/kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
-    with open('kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
+    with open(sys.argv[2], "r", encoding='UTF-8') as csvfile:
+    #with open('velikleksicon.csv', "r", encoding='UTF-8') as csvfile:
+    #with open('kadunclexicon.csv', "r", encoding='UTF-8') as csvfile:
         #depending on lexicon
         reader = csv.reader(csvfile, delimiter=',')
         #reader = csv.reader(csvfile, delimiter='\t')
@@ -114,5 +114,6 @@ analyzeWithLeksicon(cleanTweets)
 df = pd.read_csv('output.csv', sep='^')
 df.drop_duplicates(inplace=True)
 df.to_csv('output.csv', sep='^',index=False)
+
 
 
