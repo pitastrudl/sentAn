@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.metrics import confusion_matrix
@@ -6,11 +7,12 @@ import numpy as np
 import itertools
 import matplotlib.pyplot as plt
 import pandas
+import sys
 
 
 def get_all_data():
-    #with open(sys.argv[1], "r", encoding='UTF-8') as csvfile:
-    with open("output.csv", "r") as text_file:
+    with open(sys.argv[1], "r", encoding='UTF-8') as text_file:
+    #with open("output.csv", "r") as text_file:
         data = text_file.read().split('\n')
         #remove the csv header
         data.pop(0)
@@ -84,7 +86,9 @@ classifier = training_step(training_data, vectorizer)
 print(simple_evaluation(evaluation_data))
 
 
-print(preprocessing_step())
+#print(preprocessing_step())
+
+
 
 # podatki = preprocessing_data(get_all_data())
 # print(podatki)

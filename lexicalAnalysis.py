@@ -2,7 +2,7 @@
 # helped with https://github.com/stepthom/lexicon-sentiment-analysis/blob/master/doAnalysis.py
 # first argument is the csv filed delimited with a caret and the second is the lexicon, delimited with a comma
 import sys
-
+import unidecode
 import json
 
 import pandas as pd
@@ -61,6 +61,9 @@ def readAndClean():
             tweet['cleanText'] = re.sub(r'[^0-9a-zA-ZščćžđČĆŽŠĐ\ ]+', "",
                                         tweet[
                                             'cleanText'])  # at the end clear out special chars otherwise the previous regex wont work
+            tweet['cleanText'] = tweet['cleanText'].lower().strip()
+            tweet['cleanText'] = unidecode.unidecode(tweet['cleanText'])
+
             tweets.append(tweet)
     return tweets
 
@@ -76,7 +79,7 @@ def buildLexicon():
         # reader = csv.reader(csvfile, delimiter='\t')
         next(reader)
         for row in reader:
-            lexicon[row[0]] = int(row[1])
+            lexicon[row[0].strip()] = int(row[1].strip())
     return lexicon;
 
 
@@ -86,7 +89,7 @@ def scoreTweets(tweets, lexicon):
         tweet['score'] = ''
         score = 0
         for word in tweet['cleanText'].split(" "):
-            if word in lexicon:
+            if word.strip() in lexicon:
                 score = score + lexicon[word]
                 tweet['score'] = score / len(tweet['cleanText'].split())
 
@@ -139,7 +142,7 @@ def scoreTweets(tweets, lexicon):
 #             if word in lexicon:
 #                 score = score + lexicon[word]
 #                 tweet['score']= score / len(tweet['cleanText'].split())
-# 
+#
 #     #set some parameters
 #     csv_columns = ['date','username','to','replies','retweets','favorites','text',
 #                    'geo','mentions','hashtags','id','permalink','cleanText','score']

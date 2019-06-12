@@ -14,7 +14,6 @@ def tempwrite(stuff, filename):
     f.write(stuff)
     f.close()
 
-
 # vse skupaj da v eno variablo
 def get_all_data():
     with open(sys.argv[1], "r", encoding='UTF-8') as text_file:  # podatki
