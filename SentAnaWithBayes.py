@@ -65,7 +65,6 @@ def analyse_text(classifier, vectorizer, text):
     return text, classifier.predict(vectorizer.transform([text]))
 
 
-
 def simple_evaluation(evaluation_data):
     evaluation_text     = [evaluation_data[0] for evaluation_data in evaluation_data]
     evaluation_result   = [evaluation_data[1] for evaluation_data in evaluation_data]

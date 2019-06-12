@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # helped with https://github.com/stepthom/lexicon-sentiment-analysis/blob/master/doAnalysis.py
-# first argument is the csv filed delimited with a caret and the second is the lexicon, delimited with a comma
+# first argument is the csv filed delimited with a caret and the second is the lexicon, delimited with a comma, third is outputfilemae
 import sys
 import unidecode
 import json
@@ -16,6 +16,7 @@ import re
 import operator
 
 
+outputfile = sys.argv[3]
 # Intialize an empty list to hold all of our tweets
 def isindictArray(array, item):
     if item in array:
@@ -62,8 +63,7 @@ def readAndClean():
                                         tweet[
                                             'cleanText'])  # at the end clear out special chars otherwise the previous regex wont work
             tweet['cleanText'] = tweet['cleanText'].lower().strip()
-            tweet['cleanText'] = unidecode.unidecode(tweet['cleanText'])
-
+            #tweet['cleanText'] = unidecode.unidecode(tweet['cleanText'])
             tweets.append(tweet)
     return tweets
 
@@ -79,7 +79,8 @@ def buildLexicon():
         # reader = csv.reader(csvfile, delimiter='\t')
         next(reader)
         for row in reader:
-            lexicon[row[0].strip()] = int(row[1].strip())
+            #lexicon[row[0].strip()] = int(row[1].strip())
+            lexicon[row[0]] = int(row[1])
     return lexicon;
 
 
@@ -96,7 +97,7 @@ def scoreTweets(tweets, lexicon):
     # set some parameters
     csv_columns = ['date', 'username', 'to', 'replies', 'retweets', 'favorites', 'text',
                    'geo', 'mentions', 'hashtags', 'id', 'permalink', 'cleanText', 'score']
-    csv_file = "output.csv"
+    csv_file = outputfile
 
     # start saving the tweets
     tempCheck = []
