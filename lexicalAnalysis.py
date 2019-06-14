@@ -62,11 +62,15 @@ def readAndClean():
             tweet['cleanText'] = re.sub(r'[^0-9a-zA-ZščćžđČĆŽŠĐ\ ]+', "",
                                         tweet[
                                             'cleanText'])  # at the end clear out special chars otherwise the previous regex wont work
-            tweet['cleanText'] = tweet['cleanText'].lower().strip()
-            #tweet['cleanText'] = unidecode.unidecode(tweet['cleanText'])
+            tweet['cleanText'] = tweet['cleanText'].strip()
+            #tweet['cleanText'] = tweet['cleanText'].lower()  #nekaj zjebe tukaj
+
+            #tweet['cleanText'] = unidecode.unidecode(tweet['cleanText']) # ni pametno.
             tweets.append(tweet)
     return tweets
 
+#'kakšna pa je kaj pristajalna hitrost letalcev'
+#'Kakšna pa je kaj pristajalna hitrost letalcev'
 
 def buildLexicon():
     # build leksicon
@@ -85,14 +89,18 @@ def buildLexicon():
 
 
 def scoreTweets(tweets, lexicon):
+    numScoredTweets = 0
     # score the tweets
     for tweet in tweets:
         tweet['score'] = ''
         score = 0
         for word in tweet['cleanText'].split(" "):
-            if word.strip() in lexicon:
+            if tweet['cleanText'].strip() == "at olimpijski športni center planica":
+                print("hji")
+            if word in lexicon:
                 score = score + lexicon[word]
                 tweet['score'] = score / len(tweet['cleanText'].split())
+                #print(str(lexicon[word]) + ' ' + word)
 
     # set some parameters
     csv_columns = ['date', 'username', 'to', 'replies', 'retweets', 'favorites', 'text',
@@ -115,7 +123,7 @@ def scoreTweets(tweets, lexicon):
                 #     print("not writing")
     except IOError:
         print("I/O error")
-
+    print(numScoredTweets)
     return tempCheck
 
 
@@ -173,7 +181,7 @@ def scoreTweets(tweets, lexicon):
 cleanTweets = readAndClean();
 lexicon = buildLexicon();
 scoredTweets = scoreTweets(cleanTweets, lexicon)
-print(scoredTweets)
+#print(scoredTweets)
 
 # analyzeWithLeksicon(cleanTweets)
 
