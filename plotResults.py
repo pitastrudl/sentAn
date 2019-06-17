@@ -98,6 +98,7 @@ def printGraph(dates,scores):
     pio.write_image(figure, 'fig1.png')
     figure.savefig("output.png")
 
+
 printGraph(dates,scores)
 
 
